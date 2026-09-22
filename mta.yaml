@@ -1,0 +1,101 @@
+_schema-version: 3.3.0
+ID: etravel-poc
+description: eTravel PoC - CAP backend for Indorama Foreign Travel Claim digitization
+version: 1.0.0
+modules:
+  - name: etravel-poc-srv
+    type: nodejs
+    path: gen/srv
+    requires:
+      - name: etravel-poc-db
+      - name: etravel-poc-auth
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    parameters:
+      buildpack: nodejs_buildpack
+      instances: 1
+    build-parameters:
+      builder: npm-ci
+  - name: etravel-poc-postgres-deployer
+    type: nodejs
+    path: gen/pg
+    requires:
+      - name: etravel-poc-db
+    parameters:
+      buildpack: nodejs_buildpack
+      no-route: true
+      no-start: true
+      tasks:
+        - command: npm start
+          name: deploy-to-postgresql
+  - name: travelclaims
+    type: html5
+    path: app/travelclaims
+    parameters:
+      skip-deploy: true
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms:
+        - CF
+  - name: etravel-poc
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: etravel-poc-auth
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
+    build-parameters:
+      requires:
+        - name: travelclaims
+          artifacts:
+            - '*'
+          target-path: resources/travelclaims/
+resources:
+  - name: etravel-poc-db
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: Postcli
+  - name: etravel-poc-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: etravel-poc-${space}
+        tenant-mode: dedicated
+        oauth2-configuration:
+          credential-types:
+            - "binding-secret"
+            - "x509"
+          redirect-uris:
+            - https://*~{app-api/app-uri}/**
+    requires:
+      - name: app-api
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production

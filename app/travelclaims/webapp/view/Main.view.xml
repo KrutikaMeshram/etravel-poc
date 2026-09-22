@@ -1,0 +1,67 @@
+<mvc:View
+  controllerName="etravel.travelclaims.controller.Main"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:tnt="sap.tnt"
+  xmlns:f="sap.f"
+  displayBlock="true">
+
+  <App id="app">
+    <pages>
+      <tnt:ToolPage id="toolPage">
+
+        <tnt:header>
+          <f:ShellBar
+            title="eTravel"
+            showNavButton="false"
+            showSearch="false"/>
+        </tnt:header>
+
+        <tnt:sideContent>
+          <tnt:SideNavigation id="sideNav" selectedKey="dashboard" itemSelect="onSideNavSelect">
+            <tnt:NavigationList>
+            <tnt:NavigationListItem text="Dashboard" icon="sap-icon://home" key="dashboard"/>
+            <tnt:NavigationListItem text="FT Coverpage" icon="sap-icon://create-form" key="newRequest"/>
+            <tnt:NavigationListItem text="My Approvals" icon="sap-icon://approvals" key="approvals"/>
+            <tnt:NavigationListItem text="Travel Advance" icon="sap-icon://money-bills" key="newAdvance"/>
+          </tnt:NavigationList>
+          </tnt:SideNavigation>
+        </tnt:sideContent>
+
+        <tnt:mainContents>
+          <NavContainer id="navContainer" initialPage="dashboardPage">
+            <pages>
+
+              <Page id="dashboardPage" title="Travel Request" showHeader="true">
+                <content>
+                  <mvc:XMLView viewName="etravel.travelclaims.view.Dashboard"/>
+                </content>
+              </Page>
+
+              <Page id="claimPage" title="Foreign Travelling Summary Cover Page" showHeader="true" showNavButton="true" navButtonPress="onNavBack">
+                <content>
+                  <mvc:XMLView viewName="etravel.travelclaims.view.App"/>
+                </content>
+              </Page>
+
+<Page id="approvalsPage" title="My Approvals" showHeader="true">
+  <content>
+    <mvc:XMLView viewName="etravel.travelclaims.view.Approvals"/>
+  </content>
+</Page>
+
+<Page id="advancePage" title="Travel Advance Request" showHeader="true" showNavButton="true" navButtonPress="onNavBack">
+  <content>
+    <mvc:XMLView viewName="etravel.travelclaims.view.TravelAdvance"/>
+  </content>
+</Page>
+
+</pages>
+          </NavContainer>
+        </tnt:mainContents>
+
+      </tnt:ToolPage>
+    </pages>
+  </App>
+
+</mvc:View>

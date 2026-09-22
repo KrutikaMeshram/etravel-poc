@@ -1,0 +1,17 @@
+{
+  "welcomeFile": "/etraveltravelclaims/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+    {
+      "source": "^/travel/(.*)$",
+      "destination": "srv-api",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/etraveltravelclaims/(.*)$",
+      "target": "/$1",
+      "localDir": "resources/travelclaims",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}

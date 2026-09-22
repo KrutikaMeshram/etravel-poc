@@ -1,0 +1,79 @@
+<mvc:View
+  controllerName="etravel.travelclaims.controller.Approvals"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  displayBlock="true">
+
+  <VBox class="sapUiMediumMargin">
+
+    <Table id="approvalsTable" items="{/TravelClaims}" growing="true" growingThreshold="20">
+      <headerToolbar>
+        <OverflowToolbar>
+          <Title text="My Approvals" level="H4"/>
+          <ToolbarSpacer/>
+          <Button icon="sap-icon://refresh" type="Transparent" tooltip="Refresh" press="onRefreshPress"/>
+          <SearchField width="16rem" liveChange="onSearchLiveChange"/>
+        </OverflowToolbar>
+      </headerToolbar>
+      <columns>
+        <Column><Text text="Travel Request Number"/></Column>
+        <Column><Text text="Employee Name"/></Column>
+        <Column><Text text="Employee Email"/></Column>
+        <Column><Text text="Cost Centre"/></Column>
+        <Column><Text text="Status"/></Column>
+        <Column><Text text="Last Updated By"/></Column>
+        <Column><Text text="Last Updated On"/></Column>
+        <Column><Text text="Actions"/></Column>
+      </columns>
+      <items>
+        <ColumnListItem>
+          <cells>
+            <Text text="{requestNumber}"/>
+            <Text text="{employeeName}"/>
+            <Text text="{employeeEmail}"/>
+            <Text text="{costCenter}"/>
+            <ObjectStatus text="{path: 'status', formatter: '.formatStatus'}"
+              state="{path: 'status', formatter: '.formatStatusState'}"/>
+            <Text text="{lastActionBy}"/>
+            <Text text="{modifiedAt}"/>
+            <Button text="Review" type="Emphasized" press="onReviewPress"/>
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+
+    <Table id="advanceApprovalsTable" items="{/TravelAdvances}" growing="true" growingThreshold="20" class="sapUiMediumMarginTop">
+      <headerToolbar>
+        <OverflowToolbar>
+          <Title text="My Advance Approvals" level="H4"/>
+          <ToolbarSpacer/>
+          <Button icon="sap-icon://refresh" type="Transparent" tooltip="Refresh" press="onAdvanceRefreshPress"/>
+        </OverflowToolbar>
+      </headerToolbar>
+      <columns>
+        <Column><Text text="Advance Request Number"/></Column>
+        <Column><Text text="Employee Name"/></Column>
+        <Column><Text text="Employee Email"/></Column>
+        <Column><Text text="Status"/></Column>
+        <Column><Text text="Approver Email"/></Column>
+        <Column><Text text="Actions"/></Column>
+      </columns>
+      <items>
+        <ColumnListItem>
+          <cells>
+            <Text text="{requestNumber}"/>
+            <Text text="{employeeName}"/>
+            <Text text="{employeeEmail}"/>
+            <ObjectStatus text="{path: 'status', formatter: '.formatAdvanceStatus'}"
+              state="{path: 'status', formatter: '.formatAdvanceStatusState'}"/>
+            <Text text="{approverEmail}"/>
+            <Button text="Review" type="Emphasized" press="onAdvanceReviewPress"/>
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+
+  </VBox>
+
+</mvc:View>

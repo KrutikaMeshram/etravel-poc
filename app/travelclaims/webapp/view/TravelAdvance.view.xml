@@ -1,0 +1,84 @@
+<mvc:View
+  controllerName="etravel.travelclaims.controller.TravelAdvance"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:form="sap.ui.layout.form"
+  displayBlock="true">
+
+  <ScrollContainer height="100%" vertical="true">
+    <VBox class="sapUiSmallMargin">
+
+      <VBox class="sapUiResponsiveMargin" alignItems="Center" backgroundDesign="Solid">
+        <Title text="INDORAMA - THAILAND" level="H2" class="sapUiTinyMarginTop"/>
+        <Title text="TRAVEL ADVANCE &amp; TOUR PROGRAMME &amp; REQUEST FOR ADVANCE" level="H3" class="sapUiTinyMarginBottom"/>
+        <Text text="Note: Please take approval for advance first, then submit the request for advance." class="sapUiTinyMarginBottom"/>
+      </VBox>
+
+      <Panel headerText="Advance Request Details" expandable="true" expanded="true" class="sapUiResponsiveMargin">
+        <form:SimpleForm layout="ResponsiveGridLayout" editable="true" labelSpanL="5" labelSpanM="5">
+
+         <Label text="Date"/>
+<DatePicker value="{advance>/requestDate}" valueFormat="yyyy-MM-dd" displayFormat="dd-MMM-yyyy" editable="{= !${advance>/viewMode} }"/>
+
+          <Label text="Employee Name" required="true"/>
+          <Input value="{advance>/employeeName}" editable="{= !${advance>/viewMode} }"/>
+
+          <Label text="Employee Email" required="true"/>
+          <Input value="{advance>/employeeEmail}" type="Email" editable="{= !${advance>/viewMode} }"/>
+
+          <Label text="Extension No."/>
+          <Input value="{advance>/extensionNo}" editable="{= !${advance>/viewMode} }"/>
+
+          <Label text="Designation"/>
+          <Select selectedKey="{advance>/designation}" enabled="{= !${advance>/viewMode} }">
+            <core:Item key="SVP and Above" text="SVP and Above"/>
+            <core:Item key="Vice President" text="Vice President"/>
+            <core:Item key="JVP and AVP" text="JVP and AVP"/>
+            <core:Item key="MGR and Below" text="MGR and Below"/>
+          </Select>
+
+          <Label text="Countries to Visit" required="true"/>
+          <Input value="{advance>/countriesToVisit}" editable="{= !${advance>/viewMode} }"/>
+
+          <Label text="Last Traveled to Same Country"/>
+          <DatePicker value="{advance>/lastTraveledToCountry}" valueFormat="yyyy-MM-dd" displayFormat="dd-MMM-yyyy" editable="{= !${advance>/viewMode} }"/>
+
+          <Label text="Budget Amount" required="true"/>
+          <Input value="{advance>/budgetAmount}" type="Number" editable="{= !${advance>/viewMode} }" liveChange="onRecalculate"/>
+
+          <Label text="Amount Already Spent"/>
+          <Input value="{advance>/amountAlreadySpent}" type="Number" editable="{= !${advance>/viewMode} }" liveChange="onRecalculate"/>
+
+          <Label text="Advance Lying Unadjusted"/>
+          <Input value="{advance>/advanceLyingUnadjusted}" type="Number" editable="false"/>
+
+          <Label text="President / Approver Name" required="true"/>
+          <Select selectedKey="{advance>/approverName}" enabled="{= !${advance>/viewMode} }" change="onApproverChange">
+            <core:Item key="Approver 1" text="Approver 1"/>
+            <core:Item key="Approver 2" text="Approver 2"/>
+          </Select>
+
+          <Label text="Approver Email" required="true"/>
+          <Input value="{advance>/approverEmail}" type="Email" editable="false"/>
+
+        </form:SimpleForm>
+
+        <form:SimpleForm layout="ResponsiveGridLayout" editable="true" labelSpanL="5" labelSpanM="5" visible="{= ${advance>/reviewMode} === true }">
+          <Label text="Approval Comment"/>
+          <TextArea value="{advance>/approvalComment}" rows="2" placeholder="Add a comment (optional)"/>
+        </form:SimpleForm>
+
+        <HBox justifyContent="End" class="sapUiMediumMarginTop">
+  <Button text="Save" class="sapUiTinyMarginBegin" press="onSaveAdvance" visible="{= !${advance>/viewMode} }"/>
+  <Button text="Submit Advance Request" type="Emphasized" class="sapUiTinyMarginBegin" press="onSubmitAdvance" visible="{= !${advance>/viewMode} }"/>
+  <Button text="Approve" type="Accept" class="sapUiTinyMarginBegin" press="onApproveAdvance" visible="{= ${advance>/reviewMode} === true }"/>
+  <Button text="Reject" type="Reject" class="sapUiTinyMarginBegin" press="onRejectAdvance" visible="{= ${advance>/reviewMode} === true }"/>
+  <Button text="Close" class="sapUiTinyMarginBegin" press="onCloseAdvanceWizard"/>
+</HBox>
+      </Panel>
+
+    </VBox>
+  </ScrollContainer>
+
+</mvc:View>

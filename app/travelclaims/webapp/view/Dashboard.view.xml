@@ -1,0 +1,161 @@
+<mvc:View
+  controllerName="etravel.travelclaims.controller.Dashboard"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:l="sap.ui.layout"
+  displayBlock="true">
+
+  <VBox class="sapUiMediumMargin">
+
+       <HBox class="sapUiSmallMarginBottom" justifyContent="SpaceBetween" wrap="Wrap">
+
+      <GenericTile header="Draft Requests" sizeBehavior="Small">
+        <layoutData>
+          <FlexItemData baseSize="23%" growFactor="0" shrinkFactor="1"/>
+        </layoutData>
+        <TileContent footer="">
+          <NumericContent value="{dashboard>/draftCount}" withMargin="false"/>
+        </TileContent>
+      </GenericTile>
+
+      <GenericTile header="Pending Requests" sizeBehavior="Small">
+        <layoutData>
+          <FlexItemData baseSize="23%" growFactor="0" shrinkFactor="1"/>
+        </layoutData>
+        <TileContent footer="">
+          <NumericContent value="{dashboard>/pendingCount}" withMargin="false" icon="sap-icon://pending" valueColor="Critical"/>
+        </TileContent>
+      </GenericTile>
+
+      <GenericTile header="Approved Requests" sizeBehavior="Small">
+        <layoutData>
+          <FlexItemData baseSize="23%" growFactor="0" shrinkFactor="1"/>
+        </layoutData>
+        <TileContent footer="">
+          <NumericContent value="{dashboard>/approvedCount}" withMargin="false" icon="sap-icon://accept" valueColor="Good"/>
+        </TileContent>
+      </GenericTile>
+
+      <GenericTile header="Return Requests" sizeBehavior="Small">
+        <layoutData>
+          <FlexItemData baseSize="23%" growFactor="0" shrinkFactor="1"/>
+        </layoutData>
+        <TileContent footer="">
+          <NumericContent value="{dashboard>/returnCount}" withMargin="false" icon="sap-icon://undo"/>
+        </TileContent>
+      </GenericTile>
+
+      <GenericTile header="Rejected Requests" sizeBehavior="Small">
+        <layoutData>
+          <FlexItemData baseSize="23%" growFactor="0" shrinkFactor="1"/>
+        </layoutData>
+        <TileContent footer="">
+          <NumericContent value="{dashboard>/rejectedCount}" withMargin="false" icon="sap-icon://decline" valueColor="Error"/>
+        </TileContent>
+      </GenericTile>
+
+      <GenericTile header="Pending Advances" sizeBehavior="Small">
+        <layoutData>
+          <FlexItemData baseSize="23%" growFactor="0" shrinkFactor="1"/>
+        </layoutData>
+        <TileContent footer="">
+          <NumericContent value="{dashboard>/advancePendingCount}" withMargin="false" icon="sap-icon://pending" valueColor="Critical"/>
+        </TileContent>
+      </GenericTile>
+
+      <GenericTile header="Approved Advances" sizeBehavior="Small">
+        <layoutData>
+          <FlexItemData baseSize="23%" growFactor="0" shrinkFactor="1"/>
+        </layoutData>
+        <TileContent footer="">
+          <NumericContent value="{dashboard>/advanceApprovedCount}" withMargin="false" icon="sap-icon://accept" valueColor="Good"/>
+        </TileContent>
+      </GenericTile>
+
+      <GenericTile header="Rejected Advances" sizeBehavior="Small">
+        <layoutData>
+          <FlexItemData baseSize="23%" growFactor="0" shrinkFactor="1"/>
+        </layoutData>
+        <TileContent footer="">
+          <NumericContent value="{dashboard>/advanceRejectedCount}" withMargin="false" icon="sap-icon://decline" valueColor="Error"/>
+        </TileContent>
+      </GenericTile>
+
+    </HBox>
+
+   <Table id="claimsTable" items="{/TravelClaims}" growing="true" growingThreshold="20">
+      <headerToolbar>
+        <OverflowToolbar>
+          <Title text="Travel Requests" level="H4"/>
+          <ToolbarSpacer/>
+          <Button icon="sap-icon://refresh" type="Transparent" tooltip="Refresh" press="onRefreshPress"/>
+          <Button icon="sap-icon://filter" type="Transparent" tooltip="Filter" press="onFilterPress"/>
+          <SearchField width="16rem" liveChange="onSearchLiveChange"/>
+        </OverflowToolbar>
+      </headerToolbar>
+      <columns>
+        <Column><Text text="Travel Request Number"/></Column>
+        <Column><Text text="Request Date"/></Column>
+        <Column><Text text="Employee Name"/></Column>
+        <Column><Text text="Employee Email"/></Column>
+        <Column><Text text="Cost Centre"/></Column>
+        <Column><Text text="Status"/></Column>
+        <Column><Text text="Last Updated By"/></Column>
+        <Column><Text text="Last Updated On"/></Column>
+        <Column><Text text="Actions"/></Column>
+      </columns>
+      <items>
+        <ColumnListItem>
+          <cells>
+            <Text text="{requestNumber}"/>
+            <Text text="{claimDate}"/>
+            <Text text="{employeeName}"/>
+            <Text text="{employeeEmail}"/>
+            <Text text="{costCenter}"/>
+            <ObjectStatus text="{path: 'status', formatter: '.formatStatus'}"
+              state="{path: 'status', formatter: '.formatStatusState'}"/>
+            <Text text="{lastActionBy}"/>
+            <Text text="{modifiedAt}"/>
+            <Button icon="sap-icon://overflow" type="Transparent" press="onActionsPress"/>
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+
+    <Table id="advancesTable" items="{/TravelAdvances}" growing="true" growingThreshold="20" class="sapUiMediumMarginTop">
+      <headerToolbar>
+        <OverflowToolbar>
+          <Title text="Travel Advance Requests" level="H4"/>
+          <ToolbarSpacer/>
+          <Button icon="sap-icon://refresh" type="Transparent" tooltip="Refresh" press="onRefreshPress"/>
+        </OverflowToolbar>
+      </headerToolbar>
+      <columns>
+        <Column><Text text="Advance Request Number"/></Column>
+        <Column><Text text="Request Date"/></Column>
+        <Column><Text text="Employee Name"/></Column>
+        <Column><Text text="Employee Email"/></Column>
+        <Column><Text text="Status"/></Column>
+        <Column><Text text="Approver Email"/></Column>
+        <Column><Text text="Actions"/></Column>
+      </columns>
+      <items>
+        <ColumnListItem>
+          <cells>
+            <Text text="{requestNumber}"/>
+            <Text text="{requestDate}"/>
+            <Text text="{employeeName}"/>
+            <Text text="{employeeEmail}"/>
+            <ObjectStatus text="{path: 'status', formatter: '.formatAdvanceStatus'}"
+              state="{path: 'status', formatter: '.formatAdvanceStatusState'}"/>
+            <Text text="{approverEmail}"/>
+            <Button icon="sap-icon://overflow" type="Transparent" press="onAdvanceActionsPress"/>
+          </cells>
+        </ColumnListItem>
+      </items>
+    </Table>
+
+  </VBox>
+
+</mvc:View>

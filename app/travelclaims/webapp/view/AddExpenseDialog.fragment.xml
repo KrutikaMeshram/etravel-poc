@@ -1,0 +1,40 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+  <Dialog title="Add Expense" contentWidth="24rem">
+    <content>
+      <VBox class="sapUiSmallMargin">
+        <Label text="Category" labelFor="expCategory"/>
+        <Select id="expCategory" selectedKey="{dialog>/category}" width="100%">
+          <core:Item key="Foreign Travel" text="Foreign Travel"/>
+          <core:Item key="Entertainment" text="Entertainment"/>
+          <core:Item key="Conveyance" text="Conveyance"/>
+          <core:Item key="Vehicle Parking &amp; Toll Charges" text="Vehicle Parking &amp; Toll Charges"/>
+          <core:Item key="Travelling" text="Travelling"/>
+          <core:Item key="Gasoline" text="Gasoline"/>
+          <core:Item key="Internet" text="Internet"/>
+          <core:Item key="Mobile" text="Mobile"/>
+          <core:Item key="School Uniform" text="School Uniform"/>
+          <core:Item key="Medical" text="Medical"/>
+          <core:Item key="Driver Salary" text="Driver Salary"/>
+          <core:Item key="Others" text="Others"/>
+        </Select>
+
+        <Label text="Date" class="sapUiTinyMarginTop"/>
+        <DatePicker id="expDate" value="{dialog>/expenseDate}" valueFormat="yyyy-MM-dd" displayFormat="dd-MMM-yyyy" width="100%"/>
+
+        <Label text="THB Amount" class="sapUiTinyMarginTop"/>
+        <Input id="expThb" value="{dialog>/thbAmount}" type="Number" width="100%"/>
+
+        <Label text="FX Rate (INR per THB)" class="sapUiTinyMarginTop"/>
+        <Input id="expFx" value="{dialog>/fxRate}" type="Number" width="100%"/>
+      </VBox>
+    </content>
+    <beginButton>
+      <Button text="Add" type="Emphasized" press="onConfirmAddExpense"/>
+    </beginButton>
+    <endButton>
+      <Button text="Cancel" press="onCancelAddExpense"/>
+    </endButton>
+  </Dialog>
+</core:FragmentDefinition>

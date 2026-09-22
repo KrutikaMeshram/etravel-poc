@@ -1,0 +1,41 @@
+{
+  "description": "Security profile for eTravel",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Requestor",
+      "description": "Can create and submit travel requests"
+    },
+    {
+      "name": "$XSAPPNAME.Supervisor",
+      "description": "Can approve/reject at the Supervisor level"
+    },
+    {
+      "name": "$XSAPPNAME.VPFinance",
+      "description": "Can approve/reject at the VP Finance level"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Requestor",
+      "description": "Employee submitting travel requests",
+      "scope-references": [
+        "$XSAPPNAME.Requestor"
+      ]
+    },
+    {
+      "name": "Supervisor",
+      "description": "First-level approver",
+      "scope-references": [
+        "$XSAPPNAME.Supervisor"
+      ]
+    },
+    {
+      "name": "VPFinance",
+      "description": "Second-level approver",
+      "scope-references": [
+        "$XSAPPNAME.VPFinance"
+      ]
+    }
+  ]
+}

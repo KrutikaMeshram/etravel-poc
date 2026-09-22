@@ -1,0 +1,12 @@
+{
+  "name": "travelclaims",
+  "version": "1.0.0",
+  "description": "eTravel Fiori UI",
+  "scripts": {
+    "build:cf": "ui5 build --clean-dest --dest dist"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3",
+    "@sap/ux-ui5-tooling": "^1"
+  }
+}

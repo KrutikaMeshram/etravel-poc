@@ -1,0 +1,11 @@
+.sapMPage > header.sapMIBar {
+  background-color: #0a6ed1;
+}
+
+.sapMTitle {
+  color: inherit;
+}
+
+.sapMWizardStep {
+  padding-bottom: 1rem;
+}
